@@ -4,12 +4,13 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Courier New', Courier, monospace;
+  color: white;
 }
 
+
 a {
-  color: inherit;
+  color: white;
   text-decoration: none;
 }
 
@@ -18,5 +19,43 @@ a {
 }
 
 body {
-  background-color: #88effd;
+  background-color: darkslategray;
+}
+
+h1 {
+  text-align: center;
+}
+
+#homeScreen {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  height: fit-content;
+  width: 80vw;
+}
+
+.homeCard {
+  width: 200px;
+  height: 200px;
+  margin: 40px;
+  transition: ease-in-out;
+  transition-duration: 2s;
+}
+
+.homeCard:hover {
+  cursor: pointer;
+  transform: translateY(-4px);
+  transition: ease-in-out;
+  transition-duration: .8s;
+}
+
+.homeCard:active {
+  transform: scale(1.2);
+  transition: ease-in-out;
+  transition-duration: .2s;
+}
+.homeCard:active ::after {
+  transform: scale(.8);
+  transition: ease-in-out;
+  transition-duration: .2s;
 }
