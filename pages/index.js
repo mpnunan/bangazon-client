@@ -8,26 +8,50 @@ function Home() {
     <main>
       <h1>{`${user.first_name} ${user.last_name}'s console`}</h1>
       <section id="homeScreen">
-        <Link passHref href="/new-order">
-          <Card className="homeCard">
-            <Card.Header>New Order</Card.Header>
-          </Card>
-        </Link>
-        <Link passHref href="/open-orders">
-          <Card className="homeCard">
-            <Card.Header>Open Orders</Card.Header>
-          </Card>
-        </Link>
-        <Link passHref href="/past-orders">
-          <Card className="homeCard">
-            <Card.Header>Past Orders</Card.Header>
-          </Card>
-        </Link>
-        <Link passHref href="finances">
-          <Card className="homeCard">
-            <Card.Header>Finances</Card.Header>
-          </Card>
-        </Link>
+        <div className="cardContainer">
+          <Link passHref href="/new-order">
+            <Card className="homeCard">
+              <Card.Header>New Order</Card.Header>
+              <Card.Body
+                style={{
+                  backgroundColor: 'slategray',
+                }}
+              />
+            </Card>
+          </Link>
+          <Link passHref href="/open-orders">
+            <Card className="homeCard">
+              <Card.Header>Open Orders</Card.Header>
+              <Card.Body
+                style={{
+                  backgroundColor: 'slategray',
+                }}
+              />
+            </Card>
+          </Link>
+        </div>
+        <div className="cardContainer">
+          <Link passHref href="/closed-orders">
+            <Card className="homeCard">
+              <Card.Header>Past Orders</Card.Header>
+              <Card.Body
+                style={{
+                  backgroundColor: 'slategray',
+                }}
+              />
+            </Card>
+          </Link>
+          <Link passHref href="/finances">
+            <Card className="homeCard">
+              <Card.Header>Finances</Card.Header>
+              <Card.Body
+                style={{
+                  backgroundColor: 'slategray',
+                }}
+              />
+            </Card>
+          </Link>
+        </div>
       </section>
     </main>
   );

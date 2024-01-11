@@ -22,24 +22,47 @@ body {
   background-color: darkslategray;
 }
 
+main {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
 h1 {
   text-align: center;
+  animation-duration: 1s;
+  animation-name: headerSlidein;
+  white-space: nowrap;
 }
+
+@keyframes headerSlidein {
+  from {
+    margin-left: 100%;
+  }
+
+}
+
 
 #homeScreen {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
   justify-content: center;
   height: fit-content;
-  width: 80vw;
+  width: 90%;
+}
+.cardContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .homeCard {
   width: 200px;
   height: 200px;
-  margin: 40px;
-  transition: ease-in-out;
-  transition-duration: 2s;
+  margin: 20px;
+  transition: ease-in;
+  transition-duration: .3s;
 }
 
 .homeCard:hover {
@@ -49,13 +72,30 @@ h1 {
   transition-duration: .8s;
 }
 
-.homeCard:active {
-  transform: scale(1.2);
-  transition: ease-in-out;
-  transition-duration: .2s;
+.homeCard:active  {
+  transform: scale(0.1);
+  transition: ease-out;
+  transition-duration: .6s;
 }
-.homeCard:active ::after {
-  transform: scale(.8);
-  transition: ease-in-out;
-  transition-duration: .2s;
+
+#homeScreen {
+  animation-duration: 1s;
+  animation-name: slidein;
+}
+
+@keyframes slidein {
+  from {
+    margin-left: -100%;
+  }
+
+}
+
+.homeCard .card-header {
+  text-align: center;
+}
+
+.homeCard .card-body {
+  border-radius: inherit;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
 }
