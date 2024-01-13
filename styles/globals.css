@@ -37,7 +37,7 @@ h1 {
 
 @keyframes headerSlidein {
   from {
-    margin-left: 100%;
+    margin-top: -100%;
   }
 
 }
@@ -67,6 +67,9 @@ h1 {
 
 .homeCard:hover {
   cursor: pointer;
+}
+
+.homeCard:focus {
   transform: translateY(-4px);
   transition: ease-in-out;
   transition-duration: .8s;
@@ -75,7 +78,7 @@ h1 {
 .homeCard:active  {
   transform: scale(0.1);
   transition: ease-out;
-  transition-duration: .6s;
+  transition-duration: 1s;
 }
 
 #homeScreen {
