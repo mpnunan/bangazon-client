@@ -19,14 +19,13 @@ export default function OrderDetails() {
     <div>
       <h1>{`Order ${orderObj.id}`}</h1>
       <p>{`Opened ${orderObj.open_time}`}</p>
-      {!orderObj.is_open ? `Order Closed ${orderObj.close_time}` : null}
+      {!orderObj.is_open ? `Closed ${orderObj.close_time}` : null}
       <section>
         <h2>Order Details</h2>
         <div>
-          <p>{`Customer Name: ${orderObj.customer.name}`}</p>
-          <p>{`Customer Phone Number: ${orderObj.customer.phone_number}`}</p>
-          <p>{`Customer Email: ${orderObj.customer.email}`}</p>
-          <p>{`Customer Name: ${orderObj.customer.name}`}</p>
+          <p>{`Customer Name: ${orderObj.customer?.name}`}</p>
+          <p>{`Customer Phone Number: ${orderObj.customer?.phone_number}`}</p>
+          <p>{`Customer Email: ${orderObj.customer?.email}`}</p>
         </div>
         <div>
           <h3>Information</h3>

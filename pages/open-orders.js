@@ -21,6 +21,7 @@ export default function OpenOrders() {
             key={`open${order.id}`}
             orderId={order.id}
             cashierName={order.cashier.name}
+            customerObj={order.customer}
             open={order.is_open}
             type={order.type}
             paymentType={order.payment_type}

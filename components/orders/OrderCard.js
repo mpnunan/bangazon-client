@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'react-bootstrap';
-import { propTypes } from 'react-bootstrap/esm/Image';
 
 export default function OrderCard({
   orderId,
@@ -19,7 +18,7 @@ export default function OrderCard({
       <Card.Header>{customerObj.name}</Card.Header>
       <Card.Body>
         <Card.Text>
-          {type}
+          Order Type: {type}
           Payment Type: {paymentType}
           Tip: {tipAmount}
           Total: {total}
@@ -40,7 +39,7 @@ OrderCard.propTypes = {
   orderId: PropTypes.string.isRequired,
   cashierName: PropTypes.string.isRequired,
   customerObj: PropTypes.shape({
-    name: propTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
   }).isRequired,
   open: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
