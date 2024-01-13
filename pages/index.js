@@ -1,26 +1,59 @@
-import { Button } from 'react-bootstrap';
-import { signOut } from '../utils/auth';
+import Link from 'next/link';
+import { Card } from 'react-bootstrap';
 import { useAuth } from '../utils/context/authContext';
 
 function Home() {
   const { user } = useAuth();
   return (
-    <div
-      className="text-center d-flex flex-column justify-content-center align-content-center"
-      style={{
-        height: '90vh',
-        padding: '30px',
-        maxWidth: '400px',
-        margin: '0 auto',
-      }}
-    >
-      <h1>Hello {user.fbUser.displayName}! </h1>
-      <p>Your Bio: {user.bio}</p>
-      <p>Click the button below to logout!</p>
-      <Button variant="danger" type="button" size="lg" className="copy-btn" onClick={signOut}>
-        Sign Out
-      </Button>
-    </div>
+    <main>
+      <h1>{`${user.first_name} ${user.last_name}'s console`}</h1>
+      <section id="homeScreen">
+        <div className="cardContainer">
+          <Link passHref href="/new-order">
+            <Card className="homeCard">
+              <Card.Header>New Order</Card.Header>
+              <Card.Body
+                style={{
+                  backgroundColor: 'slategray',
+                }}
+              />
+            </Card>
+          </Link>
+          <Link passHref href="/open-orders">
+            <Card className="homeCard">
+              <Card.Header>Open Orders</Card.Header>
+              <Card.Body
+                style={{
+                  backgroundColor: 'slategray',
+                }}
+              />
+            </Card>
+          </Link>
+        </div>
+        <div className="cardContainer">
+          <Link passHref href="/closed-orders">
+            <Card className="homeCard">
+              <Card.Header>Past Orders</Card.Header>
+              <Card.Body
+                style={{
+                  backgroundColor: 'slategray',
+                }}
+              />
+            </Card>
+          </Link>
+          <Link passHref href="/finances">
+            <Card className="homeCard">
+              <Card.Header>Finances</Card.Header>
+              <Card.Body
+                style={{
+                  backgroundColor: 'slategray',
+                }}
+              />
+            </Card>
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }
 

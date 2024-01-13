@@ -19,7 +19,19 @@ function Signin() {
     >
       <h1>Hi there!</h1>
       <p>Click the button below to login!</p>
-      <Button type="button" size="lg" className="copy-btn" onClick={signIn}>
+      <Button
+        type="button"
+        size="lg"
+        className="copy-btn"
+        onClick={signIn}
+        style={{
+          width: '300px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          backgroundColor: 'black',
+          borderColor: 'white',
+        }}
+      >
         Sign In
       </Button>
     </div>
