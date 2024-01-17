@@ -40,7 +40,7 @@ export default function OrderDetails() {
           <h3>Items</h3>
           <ul>
             {orderObj.items?.map((item) => (
-              <li>{item.name} : {item.price}</li>
+              <li key={item.id}>{item.name} : {item.price}</li>
             ))}
           </ul>
         </div>

@@ -5,7 +5,8 @@ import { Card } from 'react-bootstrap';
 
 export default function OrderCard({
   orderId,
-  cashierName,
+  cashierFirstName,
+  cashierLastName,
   customerObj,
   open,
   type,
@@ -25,7 +26,7 @@ export default function OrderCard({
         </Card.Text>
       </Card.Body>
       <Card.Footer>
-        {cashierName}
+        {cashierFirstName} {cashierLastName}
         {!open ? 'Order Closed' : null}
         <Link passHref href={`/orders/${orderId}`}>
           Order Details
@@ -37,13 +38,14 @@ export default function OrderCard({
 
 OrderCard.propTypes = {
   orderId: PropTypes.string.isRequired,
-  cashierName: PropTypes.string.isRequired,
+  cashierFirstName: PropTypes.string.isRequired,
+  cashierLastName: PropTypes.string.isRequired,
   customerObj: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
   open: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
   paymentType: PropTypes.string.isRequired,
-  tipAmount: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
+  tipAmount: PropTypes.string.isRequired,
+  total: PropTypes.string.isRequired,
 };

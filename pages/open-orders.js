@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getAllOrders } from '../utils/data/orderRequests';
+import { getCertainOrders } from '../utils/data/orderRequests';
 import OrderCard from '../components/orders/OrderCard';
 
 export default function OpenOrders() {
   const [orders, setOrders] = useState([]);
 
   const getOpenOrders = () => {
-    getAllOrders().then(setOrders);
+    getCertainOrders('True').then(setOrders);
   };
 
   useEffect(() => {
@@ -16,11 +16,12 @@ export default function OpenOrders() {
     <div>
       <h1>Open Orders</h1>
       <section>
-        {orders.map((order) => (
+        {orders?.map((order) => (
           <OrderCard
             key={`open${order.id}`}
             orderId={order.id}
-            cashierName={order.cashier.name}
+            cashierFirstName={order.cashier.first_name}
+            cashierLastName={order.cashier.last_name}
             customerObj={order.customer}
             open={order.is_open}
             type={order.type}

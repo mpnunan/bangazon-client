@@ -5,6 +5,11 @@ const getAllOrders = async () => {
   return Object.values(orders.data);
 };
 
+const getCertainOrders = async (yayornay) => {
+  const certainOrders = await bangarang.get(`/orders?is_open=${yayornay}`);
+  return Object.values(certainOrders.data);
+};
+
 const getSingleOrder = async (id) => {
   const order = await bangarang.get(`/orders/${id}`);
   return order.data;
@@ -27,6 +32,7 @@ const deleteOrder = async (id) => {
 
 export {
   getAllOrders,
+  getCertainOrders,
   getSingleOrder,
   createOrder,
   updateOrder,
