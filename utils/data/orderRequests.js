@@ -40,8 +40,8 @@ const removeItem = async (orderId, payload) => {
   return subtraction.data;
 };
 
-const closeOrder = async (orderId) => {
-  const order = await bangarang.put(`/orders/${orderId}/close`);
+const closeOrder = async (orderId, payload) => {
+  const order = await bangarang.put(`/orders/${orderId}/close`, payload);
   return order.data;
 };
 

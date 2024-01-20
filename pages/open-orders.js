@@ -15,12 +15,12 @@ export default function OpenOrders() {
 
   return (
     <div>
-      <h1>Open Orders</h1>
+      <h1 id="openOrderHeader">Open Orders</h1>
       <section>
         {orders?.map((order) => (
-          <div>
+          <div key={`${order.id}--open-subSection`}>
             <OrderCard
-              key={`open${order.id}`}
+              key={`open-${order.id}`}
               orderId={order.id}
               cashierFirstName={order.cashier.first_name}
               cashierLastName={order.cashier.last_name}

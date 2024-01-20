@@ -8,14 +8,16 @@ export default function OrderItems() {
   const { orderId } = router.query;
   const [items, setItems] = useState([]);
 
+  const orderIdNum = parseInt(orderId, 10);
+
   useEffect(() => {
     getAllItems().then(setItems);
   }, []);
 
   return (
-    <div>
+    <div key={`${orderId}--order-items`}>
       <h1>Edit Order Items</h1>
-      <EditItems orderId={orderId} allItems={items} />
+      <EditItems orderId={orderIdNum} allItems={items} />
     </div>
   );
 }

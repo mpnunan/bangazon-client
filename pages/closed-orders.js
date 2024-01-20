@@ -13,13 +13,13 @@ export default function ClosedOrders() {
     getClosedOrders();
   }, []);
   return (
-    <div>
-      <h1>Closed Orders</h1>
+    <div id="closedOrderSection">
+      <h1 id="closedOrderHeader">Closed Orders</h1>
       <section>
         {orders?.map((order) => (
-          <div>
+          <div key={`${order.id}--closed-subSection`}>
             <OrderCard
-              key={`closed${order.id}`}
+              key={`closed-${order.id}`}
               orderId={order.id}
               cashierFirstName={order.cashier.first_name}
               cashierLastName={order.cashier.last_name}

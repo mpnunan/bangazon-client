@@ -6,6 +6,7 @@ import { getSingleOrder, totalOrder } from '../../utils/data/orderRequests';
 import MenuListItem from './MenuListItem';
 import OrderListItem from './OrderListItem';
 
+let amount = 0.00;
 export default function EditItems({ orderId, allItems }) {
   const [items, setItems] = useState([]);
   const router = useRouter();
@@ -16,8 +17,11 @@ export default function EditItems({ orderId, allItems }) {
     });
   };
 
+  useEffect(() => {
+    getCurrentItems();
+  }, []);
+
   const orderTotal = () => {
-    let amount = 0.00;
     items.forEach((item) => {
       amount += (parseFloat(item.price));
     });
@@ -27,23 +31,19 @@ export default function EditItems({ orderId, allItems }) {
       });
   };
 
-  useEffect(() => {
-    getCurrentItems();
-  }, []);
-
   return (
     <div>
       <section>
         <ul>
           {allItems?.map((item) => (
-            <MenuListItem key={`${item.id}-menu`} itemName={item.name} itemId={item.id} orderId={orderId} onUpdate={getCurrentItems} />
+            <MenuListItem key={`${item.id}--${items.indexOf(item)}-menu`} itemName={item.name} itemId={item.id} orderId={orderId} onUpdate={getCurrentItems} />
           ))}
         </ul>
       </section>
       <section>
         <ul>
           {items?.map((item) => (
-            <OrderListItem key={`${item.id}-order`} itemName={item.name} itemId={item.id} orderId={orderId} onUpdate={getCurrentItems} />
+            <OrderListItem key={`${item.id}--${items.indexOf(item)}-order`} itemName={item.name} itemId={item.id} orderId={orderId} onUpdate={getCurrentItems} />
           ))}
         </ul>
       </section>

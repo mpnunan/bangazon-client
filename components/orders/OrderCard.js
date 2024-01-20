@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card } from 'react-bootstrap';
-import { closeOrder, openOrder } from '../../utils/data/orderRequests';
+import { deleteOrder, openOrder } from '../../utils/data/orderRequests';
 
 export default function OrderCard({
   orderId,
@@ -16,9 +16,9 @@ export default function OrderCard({
   total,
   onUpdate,
 }) {
-  const closeThisOrder = () => {
+  const deleteThisOrder = () => {
     if (window.confirm(`Close Order ${orderId}?`)) {
-      closeOrder(orderId).then(() => {
+      deleteOrder(orderId).then(() => {
         onUpdate();
       });
     }
@@ -33,7 +33,7 @@ export default function OrderCard({
   };
 
   return (
-    <Card>
+    <Card key={!open ? `${orderId}--card-closed` : `${orderId}--card-open`}>
       <Card.Header>{customerObj.name}</Card.Header>
       <Card.Body>
         <Card.Text>
@@ -47,12 +47,17 @@ export default function OrderCard({
         {cashierFirstName} {cashierLastName}
         {!open ? 'Order Closed' : null}
         <Link passHref href={`/orders/${orderId}`}>
-          Order Details
+          <Button>Order Details</Button>
         </Link>
+        <Button onClick={deleteThisOrder}>Delete Order</Button>
         {
           !open
-            ? <Button onClick={openThisOrder}>Re-Open Order</Button>
-            : <Button onClick={closeThisOrder}>Close Order</Button>
+            ? (
+              <>
+                <Button onClick={openThisOrder}>Re-Open Order</Button>
+              </>
+            )
+            : <Link passHref href={`/orders/close/${orderId}`}><Button>Close Order</Button></Link>
         }
       </Card.Footer>
     </Card>
@@ -60,7 +65,7 @@ export default function OrderCard({
 }
 
 OrderCard.propTypes = {
-  orderId: PropTypes.string.isRequired,
+  orderId: PropTypes.number.isRequired,
   cashierFirstName: PropTypes.string.isRequired,
   cashierLastName: PropTypes.string.isRequired,
   customerObj: PropTypes.shape({

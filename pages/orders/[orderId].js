@@ -18,12 +18,15 @@ export default function OrderDetails() {
   }, [orderId]);
 
   return (
-    <div>
+    <div key={`${orderObj.id}--details-page`}>
       <h1>{`Order ${orderObj.id}`}</h1>
       <p>{`Opened ${orderObj.open_time}`}</p>
       {!orderObj.is_open ? `Closed ${orderObj.close_time}` : null}
       <section>
         <h2>Order Details</h2>
+        <Link passHref href={`/orders/edit/${orderObj.id}`}>
+          <Button>Edit Order</Button>
+        </Link>
         <div>
           <p>{`Customer Name: ${orderObj.customer?.name}`}</p>
           <p>{`Customer Phone Number: ${orderObj.customer?.phone_number}`}</p>
@@ -35,7 +38,7 @@ export default function OrderDetails() {
             <li>{`Order Type: ${orderObj.type}`}</li>
             <li>{`Payment Type: ${orderObj.payment_type}`}</li>
             <li>{`Tip Amount: ${orderObj.tip_amount}`}</li>
-            <li><bold>{`Order Total: ${orderObj.total}`}</bold></li>
+            <li><strong>{`Order Total: ${orderObj.total}`}</strong></li>
           </ul>
         </div>
         <div>
@@ -49,7 +52,7 @@ export default function OrderDetails() {
             )}
           <ul>
             {orderObj.items?.map((item) => (
-              <li key={item.id}>{item.name} : {item.price}</li>
+              <li key={`${item.id}--${orderObj.items.indexOf(item)}`}>{item.name} : {item.price}</li>
             ))}
           </ul>
         </div>

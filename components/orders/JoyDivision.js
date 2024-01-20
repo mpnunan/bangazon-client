@@ -9,7 +9,6 @@ import { createCustomer, updateCustomer } from '../../utils/data/customerRequest
 const initialState = {
   cashierId: '',
   customerId: 0,
-  // isOpen: 'true',
   type: '',
   paymentType: '',
   tipAmount: 0.00,
@@ -20,12 +19,8 @@ const initialCustomerState = {
   name: '',
   email: '',
   phoneNumber: '',
+  tipAMount: 0.00,
 };
-
-// const now = new Date();
-// const nowDate = now.toISOString().substring(0, 10);
-// const nowTime = now.toISOString().substring(11, 16);
-// const rightNow = `${nowDate} ${nowTime}`;
 
 export default function NewOrder({ orderObj }) {
   const [currentOrder, setCurrentOrder] = useState(initialState);
@@ -60,16 +55,15 @@ export default function NewOrder({ orderObj }) {
     e.preventDefault();
     if (orderObj.id) {
       updateCustomer(customer.id, customer).then(() => {
-        updateOrder(orderObj.id, currentOrder).then(() => router.push(`/orders/${currentOrder.id}`));
+        updateOrder(orderObj.id, currentOrder).then(() => router.push(`/orders/${orderObj.id}`));
       });
     } else {
       createCustomer(customer).then((customerObj) => {
         createOrder({
           ...currentOrder,
-          // openTime: rightNow,
           customerId: customerObj.id,
           cashierId: user.uid,
-        }).then(() => router.push(`/orders/order_items/${currentOrder.id}`));
+        }).then((orderData) => router.push(`/orders/order_items/${orderData.id}`));
       });
     }
   };
@@ -100,7 +94,7 @@ export default function NewOrder({ orderObj }) {
         <Form.Label>Customer Phone Number</Form.Label>
         <Form.Control
           name="phoneNumber"
-          type="phoneNumber"
+          type="number"
           value={customer.phoneNumber}
           onChange={handleCustomerChange}
           required
@@ -149,7 +143,7 @@ export default function NewOrder({ orderObj }) {
 
 NewOrder.propTypes = {
   orderObj: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     cashier: PropTypes.number,
     customer: PropTypes.shape({
       name: PropTypes.string,
@@ -161,14 +155,14 @@ NewOrder.propTypes = {
     closeTime: PropTypes.string,
     type: PropTypes.string,
     paymentType: PropTypes.string,
-    tipAmount: PropTypes.number,
+    tip_amount: PropTypes.number,
     total: PropTypes.number,
   }),
 };
 
 NewOrder.defaultProps = {
   orderObj: PropTypes.shape({
-    id: '',
+    id: 0,
     cashier: 0,
     customer: {},
     isOpen: '',
