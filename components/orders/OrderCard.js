@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
+import { closeOrder, openOrder } from '../../utils/data/orderRequests';
 
 export default function OrderCard({
   orderId,
@@ -13,7 +14,24 @@ export default function OrderCard({
   paymentType,
   tipAmount,
   total,
+  onUpdate,
 }) {
+  const closeThisOrder = () => {
+    if (window.confirm(`Close Order ${orderId}?`)) {
+      closeOrder(orderId).then(() => {
+        onUpdate();
+      });
+    }
+  };
+
+  const openThisOrder = () => {
+    if (window.confirm(`Re-open Order ${orderId}?`)) {
+      openOrder(orderId).then(() => {
+        onUpdate();
+      });
+    }
+  };
+
   return (
     <Card>
       <Card.Header>{customerObj.name}</Card.Header>
@@ -31,6 +49,11 @@ export default function OrderCard({
         <Link passHref href={`/orders/${orderId}`}>
           Order Details
         </Link>
+        {
+          !open
+            ? <Button onClick={openThisOrder}>Re-Open Order</Button>
+            : <Button onClick={closeThisOrder}>Close Order</Button>
+        }
       </Card.Footer>
     </Card>
   );
@@ -48,4 +71,5 @@ OrderCard.propTypes = {
   paymentType: PropTypes.string.isRequired,
   tipAmount: PropTypes.string.isRequired,
   total: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };

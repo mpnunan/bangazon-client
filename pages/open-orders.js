@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { closeOrder, getCertainOrders } from '../utils/data/orderRequests';
+import { getCertainOrders } from '../utils/data/orderRequests';
 import OrderCard from '../components/orders/OrderCard';
 
 export default function OpenOrders() {
@@ -10,15 +9,10 @@ export default function OpenOrders() {
     getCertainOrders('True').then(setOrders);
   };
 
-  const closeThisOrder = (id) => {
-    closeOrder(id).then(() => {
-      getOpenOrders();
-    });
-  };
-
   useEffect(() => {
     getOpenOrders();
   }, []);
+
   return (
     <div>
       <h1>Open Orders</h1>
@@ -36,8 +30,8 @@ export default function OpenOrders() {
               paymentType={order.payment_type}
               tipAmount={order.tip_amount}
               total={order.total}
+              onUpdate={getOpenOrders}
             />
-            <Button onClick={closeThisOrder(order.id)}>Close Out</Button>
           </div>
         ))}
       </section>

@@ -36,7 +36,7 @@ const addItem = async (orderId, payload) => {
 };
 
 const removeItem = async (orderId, payload) => {
-  const subtraction = await bangarang.delete(`/orders/${orderId}/remove_item`, payload);
+  const subtraction = await bangarang.put(`/orders/${orderId}/remove_item`, payload);
   return subtraction.data;
 };
 

@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Button } from 'react-bootstrap';
 import { getSingleOrder } from '../../utils/data/orderRequests';
 
 export default function OrderDetails() {
@@ -38,6 +40,13 @@ export default function OrderDetails() {
         </div>
         <div>
           <h3>Items</h3>
+          { !orderObj.is_open
+            ? null
+            : (
+              <Link passHref href={`/orders/order_items/${orderObj.id}`}>
+                <Button>Edit Items</Button>
+              </Link>
+            )}
           <ul>
             {orderObj.items?.map((item) => (
               <li key={item.id}>{item.name} : {item.price}</li>

@@ -5,7 +5,7 @@ import EditItems from '../../../components/items/EditItems';
 
 export default function OrderItems() {
   const router = useRouter();
-  const orderId = router.query;
+  const { orderId } = router.query;
   const [items, setItems] = useState([]);
 
   useEffect(() => {

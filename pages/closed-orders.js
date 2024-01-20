@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { getCertainOrders, openOrder } from '../utils/data/orderRequests';
+import { getCertainOrders } from '../utils/data/orderRequests';
 import OrderCard from '../components/orders/OrderCard';
 
 export default function ClosedOrders() {
@@ -8,12 +7,6 @@ export default function ClosedOrders() {
 
   const getClosedOrders = () => {
     getCertainOrders('False').then(setOrders);
-  };
-
-  const openThisOrder = (id) => {
-    openOrder(id).then(() => {
-      getClosedOrders();
-    });
   };
 
   useEffect(() => {
@@ -36,8 +29,8 @@ export default function ClosedOrders() {
               paymentType={order.payment_type}
               tipAmount={order.tip_amount}
               total={order.total}
+              onUpdate={getClosedOrders}
             />
-            <Button onClick={openThisOrder(order.id)}>Open back up</Button>
           </div>
         ))}
       </section>

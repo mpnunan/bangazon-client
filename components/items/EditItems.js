@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { addItem, getSingleOrder, removeItem } from '../../utils/data/orderRequests';
+import { getSingleOrder } from '../../utils/data/orderRequests';
+import MenuListItem from './MenuListItem';
+import OrderListItem from './OrderListItem';
 
 export default function EditItems({ orderId, allItems }) {
   const [items, setItems] = useState([]);
@@ -9,18 +10,6 @@ export default function EditItems({ orderId, allItems }) {
   const getCurrentItems = () => {
     getSingleOrder(orderId).then((order) => {
       setItems(order.items);
-    });
-  };
-
-  const addToOrder = (id, payload) => {
-    addItem(id, payload).then(() => {
-      getCurrentItems();
-    });
-  };
-
-  const removeFromOrder = (id, payload) => {
-    removeItem(id, payload).then(() => {
-      getCurrentItems();
     });
   };
 
@@ -32,15 +21,15 @@ export default function EditItems({ orderId, allItems }) {
     <div>
       <section>
         <ul>
-          {allItems.map((item) => (
-            <li key={item.id}>{item.name} <Button onClick={addToOrder(orderId, { order: orderId, item: item.id })}>Add Item</Button></li>
+          {allItems?.map((item) => (
+            <MenuListItem key={`${item.id}-menu`} itemName={item.name} itemId={item.id} orderId={orderId} onUpdate={getCurrentItems} />
           ))}
         </ul>
       </section>
       <section>
         <ul>
-          {items.map((item) => (
-            <li>{item.name} <Button onClick={removeFromOrder(orderId, { order: orderId, item: item.id })}>Remove Item</Button></li>
+          {items?.map((item) => (
+            <OrderListItem key={`${item.id}-order`} itemName={item.name} itemId={item.id} orderId={orderId} onUpdate={getCurrentItems} />
           ))}
         </ul>
       </section>
