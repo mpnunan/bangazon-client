@@ -50,6 +50,11 @@ const openOrder = async (orderId) => {
   return order.data;
 };
 
+const totalOrder = async (orderId, payload) => {
+  const total = await bangarang.put(`/orders/${orderId}/total`, payload);
+  return total.data;
+};
+
 export {
   getAllOrders,
   getCertainOrders,
@@ -61,4 +66,5 @@ export {
   removeItem,
   closeOrder,
   openOrder,
+  totalOrder,
 };

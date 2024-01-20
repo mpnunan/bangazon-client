@@ -1,16 +1,30 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { getSingleOrder } from '../../utils/data/orderRequests';
+import { useRouter } from 'next/router';
+import { Button } from 'react-bootstrap';
+import { getSingleOrder, totalOrder } from '../../utils/data/orderRequests';
 import MenuListItem from './MenuListItem';
 import OrderListItem from './OrderListItem';
 
 export default function EditItems({ orderId, allItems }) {
   const [items, setItems] = useState([]);
+  const router = useRouter();
 
   const getCurrentItems = () => {
     getSingleOrder(orderId).then((order) => {
       setItems(order.items);
     });
+  };
+
+  const orderTotal = () => {
+    let amount = 0.00;
+    items.forEach((item) => {
+      amount += (parseFloat(item.price));
+    });
+    totalOrder(orderId, { total: amount })
+      .then(() => {
+        router.push(`/orders/${orderId}`);
+      });
   };
 
   useEffect(() => {
@@ -32,6 +46,9 @@ export default function EditItems({ orderId, allItems }) {
             <OrderListItem key={`${item.id}-order`} itemName={item.name} itemId={item.id} orderId={orderId} onUpdate={getCurrentItems} />
           ))}
         </ul>
+      </section>
+      <section>
+        <Button onClick={orderTotal}>Save Items</Button>
       </section>
     </div>
   );
