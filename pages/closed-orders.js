@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getCertainOrders } from '../utils/data/orderRequests';
+import { Button } from 'react-bootstrap';
+import { getCertainOrders, openOrder } from '../utils/data/orderRequests';
 import OrderCard from '../components/orders/OrderCard';
 
 export default function ClosedOrders() {
@@ -7,6 +8,12 @@ export default function ClosedOrders() {
 
   const getClosedOrders = () => {
     getCertainOrders('False').then(setOrders);
+  };
+
+  const openThisOrder = (id) => {
+    openOrder(id).then(() => {
+      getClosedOrders();
+    });
   };
 
   useEffect(() => {
@@ -17,18 +24,21 @@ export default function ClosedOrders() {
       <h1>Closed Orders</h1>
       <section>
         {orders?.map((order) => (
-          <OrderCard
-            key={`closed${order.id}`}
-            orderId={order.id}
-            cashierFirstName={order.cashier.first_name}
-            cashierLastName={order.cashier.last_name}
-            customerObj={order.customer}
-            open={order.is_open}
-            type={order.type}
-            paymentType={order.payment_type}
-            tipAmount={order.tip_amount}
-            total={order.total}
-          />
+          <div>
+            <OrderCard
+              key={`closed${order.id}`}
+              orderId={order.id}
+              cashierFirstName={order.cashier.first_name}
+              cashierLastName={order.cashier.last_name}
+              customerObj={order.customer}
+              open={order.is_open}
+              type={order.type}
+              paymentType={order.payment_type}
+              tipAmount={order.tip_amount}
+              total={order.total}
+            />
+            <Button onClick={openThisOrder(order.id)}>Open back up</Button>
+          </div>
         ))}
       </section>
     </div>

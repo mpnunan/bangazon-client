@@ -30,6 +30,26 @@ const deleteOrder = async (id) => {
   return deletedOrder.data;
 };
 
+const addItem = async (orderId, payload) => {
+  const addition = await bangarang.post(`/orders/${orderId}/add_item`, payload);
+  return addition.data;
+};
+
+const removeItem = async (orderId, payload) => {
+  const subtraction = await bangarang.delete(`/orders/${orderId}/remove_item`, payload);
+  return subtraction.data;
+};
+
+const closeOrder = async (orderId) => {
+  const order = await bangarang.put(`/orders/${orderId}/close`);
+  return order.data;
+};
+
+const openOrder = async (orderId) => {
+  const order = await bangarang.put(`/orders/${orderId}/reopen`);
+  return order.data;
+};
+
 export {
   getAllOrders,
   getCertainOrders,
@@ -37,4 +57,8 @@ export {
   createOrder,
   updateOrder,
   deleteOrder,
+  addItem,
+  removeItem,
+  closeOrder,
+  openOrder,
 };

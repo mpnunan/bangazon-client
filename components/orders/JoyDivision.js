@@ -4,37 +4,53 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { createOrder, updateOrder } from '../../utils/data/orderRequests';
 import { useAuth } from '../../utils/context/authContext';
+import { createCustomer, updateCustomer } from '../../utils/data/customerRequests';
 
 const initialState = {
-  id: '',
-  cashier: 0,
-  customer: 0,
-  isOpen: '',
-  openTime: '',
-  closeTime: '',
+  cashierId: '',
+  customerId: 0,
+  // isOpen: 'true',
   type: '',
   paymentType: '',
   tipAmount: 0.00,
   total: 0.00,
 };
 
-const now = new Date();
-const rightNow = now.toISOString().substring(0, 10);
+const initialCustomerState = {
+  name: '',
+  email: '',
+  phoneNumber: '',
+};
 
-export default function NewOrder({ orderObj, customerId }) {
+// const now = new Date();
+// const nowDate = now.toISOString().substring(0, 10);
+// const nowTime = now.toISOString().substring(11, 16);
+// const rightNow = `${nowDate} ${nowTime}`;
+
+export default function NewOrder({ orderObj }) {
   const [currentOrder, setCurrentOrder] = useState(initialState);
+  const [customer, setCustomer] = useState(initialCustomerState);
   const router = useRouter();
   const { user } = useAuth();
 
   useEffect(() => {
     if (orderObj.id) {
       setCurrentOrder(currentOrder);
+      setCustomer(orderObj.customer);
     }
-  }, [orderObj.id, currentOrder]);
+  }, [orderObj.id, currentOrder, orderObj.customer]);
 
-  const handleChange = (e) => {
+  const handleOrderChange = (e) => {
     const { name, value } = e.target;
     setCurrentOrder((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleCustomerChange = (e) => {
+    const { name, value } = e.target;
+    setCustomer((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -43,25 +59,59 @@ export default function NewOrder({ orderObj, customerId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (orderObj.id) {
-      updateOrder(orderObj.id, currentOrder).then(() => router.push('/'));
+      updateCustomer(customer.id, customer).then(() => {
+        updateOrder(orderObj.id, currentOrder).then(() => router.push(`/orders/${currentOrder.id}`));
+      });
     } else {
-      createOrder({
-        ...currentOrder,
-        openTime: rightNow,
-        customer: customerId,
-        cashier: user.uid,
-      }).then(() => router.push('/orders'));
+      createCustomer(customer).then((customerObj) => {
+        createOrder({
+          ...currentOrder,
+          // openTime: rightNow,
+          customerId: customerObj.id,
+          cashierId: user.uid,
+        }).then(() => router.push(`/orders/order_items/${currentOrder.id}`));
+      });
     }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
+      <Form.Group className="mb-3">
+        <Form.Label>Customer Name</Form.Label>
+        <Form.Control
+          name="name"
+          type="text"
+          value={customer.name}
+          onChange={handleCustomerChange}
+          required
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Customer Email</Form.Label>
+        <Form.Control
+          name="email"
+          type="email"
+          value={customer.email}
+          onChange={handleCustomerChange}
+          required
+        />
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Customer Phone Number</Form.Label>
+        <Form.Control
+          name="phoneNumber"
+          type="phoneNumber"
+          value={customer.phoneNumber}
+          onChange={handleCustomerChange}
+          required
+        />
+      </Form.Group>
       <Form.Select
         aria-label="Order Type"
         name="type"
         required
         value={currentOrder.type}
-        onChange={handleChange}
+        onChange={handleOrderChange}
       >
         <option value="">Order Type:</option>
         <option key="dinein" value="dinein">Dine-In</option>
@@ -73,7 +123,7 @@ export default function NewOrder({ orderObj, customerId }) {
         name="paymentType"
         required
         value={currentOrder.paymentType}
-        onChange={handleChange}
+        onChange={handleOrderChange}
       >
         <option value="">Payment Type:</option>
         <option key="cash" value="cash">Cash</option>
@@ -85,7 +135,7 @@ export default function NewOrder({ orderObj, customerId }) {
           name="tipAmount"
           type="number"
           value={currentOrder.tipAmount}
-          onChange={handleChange}
+          onChange={handleOrderChange}
           required
         />
       </Form.Group>
@@ -101,7 +151,11 @@ NewOrder.propTypes = {
   orderObj: PropTypes.shape({
     id: PropTypes.string,
     cashier: PropTypes.number,
-    customer: PropTypes.number,
+    customer: PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string,
+      phone_number: PropTypes.number,
+    }),
     isOpen: PropTypes.bool,
     openTime: PropTypes.string,
     closeTime: PropTypes.string,
@@ -110,14 +164,13 @@ NewOrder.propTypes = {
     tipAmount: PropTypes.number,
     total: PropTypes.number,
   }),
-  customerId: PropTypes.string,
 };
 
 NewOrder.defaultProps = {
   orderObj: PropTypes.shape({
     id: '',
     cashier: 0,
-    customer: 0,
+    customer: {},
     isOpen: '',
     openTime: '',
     closeTime: '',
@@ -126,5 +179,4 @@ NewOrder.defaultProps = {
     tipAmount: 0.00,
     total: 0.00,
   }),
-  customerId: '',
 };
