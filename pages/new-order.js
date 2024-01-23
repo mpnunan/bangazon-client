@@ -5,7 +5,7 @@ export default function JoyDivision() {
   return (
     <div>
       <h1>New Order</h1>
-      <NewOrder />
+      <NewOrder key="new" />
     </div>
   );
 }

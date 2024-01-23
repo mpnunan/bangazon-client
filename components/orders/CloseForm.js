@@ -7,8 +7,8 @@ import { closeOrder } from '../../utils/data/orderRequests';
 const initialCloseState = {
   type: '',
   paymentType: '',
-  tipAmount: 0.00,
-  total: 0.00,
+  tipAmount: '0.00',
+  total: '0.00',
 };
 
 export default function CloseForm({
@@ -91,17 +91,18 @@ export default function CloseForm({
 }
 
 CloseForm.propTypes = {
-  orderId: PropTypes.number.isRequired,
-  total: PropTypes.number,
+  orderId: PropTypes.string.isRequired,
+  total: PropTypes.string,
   paymentType: PropTypes.string,
-  tipAmount: PropTypes.number,
+  tipAmount: PropTypes.string,
   type: PropTypes.string,
-  subTotal: PropTypes.number.isRequired,
+  subTotal: PropTypes.string,
 };
 
 CloseForm.defaultProps = {
-  total: 0.00,
+  total: '0.00',
   paymentType: '',
-  tipAmount: 0.00,
+  tipAmount: '0.00',
   type: '',
+  subTotal: '0.00',
 };

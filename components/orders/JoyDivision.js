@@ -11,15 +11,14 @@ const initialState = {
   customerId: 0,
   type: '',
   paymentType: '',
-  tipAmount: 0.00,
-  total: 0.00,
+  tipAmount: '0.00',
+  total: '0.00',
 };
 
 const initialCustomerState = {
   name: '',
   email: '',
   phoneNumber: '',
-  tipAMount: 0.00,
 };
 
 export default function NewOrder({ orderObj }) {
@@ -30,10 +29,22 @@ export default function NewOrder({ orderObj }) {
 
   useEffect(() => {
     if (orderObj.id) {
-      setCurrentOrder(currentOrder);
-      setCustomer(orderObj.customer);
+      setCurrentOrder({
+        cashierId: user.uid,
+        customerId: orderObj.customer.id,
+        type: orderObj.type,
+        paymentType: orderObj.payment_type,
+        tipAmount: orderObj.tip_amount,
+        total: orderObj.total,
+      });
+      setCustomer({
+        id: orderObj.customer.id,
+        name: orderObj.customer.name,
+        email: orderObj.customer.email,
+        phoneNumber: orderObj.customer.phone_number,
+      });
     }
-  }, [orderObj.id, currentOrder, orderObj.customer]);
+  }, [user.uid, orderObj.customer, orderObj.id, orderObj.payment_type, orderObj.tip_amount, orderObj.total, orderObj.type]);
 
   const handleOrderChange = (e) => {
     const { name, value } = e.target;
@@ -144,33 +155,31 @@ export default function NewOrder({ orderObj }) {
 NewOrder.propTypes = {
   orderObj: PropTypes.shape({
     id: PropTypes.number,
-    cashier: PropTypes.number,
     customer: PropTypes.shape({
+      id: PropTypes.number,
       name: PropTypes.string,
       email: PropTypes.string,
       phone_number: PropTypes.number,
     }),
-    isOpen: PropTypes.bool,
-    openTime: PropTypes.string,
-    closeTime: PropTypes.string,
     type: PropTypes.string,
-    paymentType: PropTypes.string,
-    tip_amount: PropTypes.number,
-    total: PropTypes.number,
+    payment_type: PropTypes.string,
+    tip_amount: PropTypes.string,
+    total: PropTypes.string,
   }),
 };
 
 NewOrder.defaultProps = {
   orderObj: PropTypes.shape({
     id: 0,
-    cashier: 0,
-    customer: {},
-    isOpen: '',
-    openTime: '',
-    closeTime: '',
+    customer: {
+      id: 0,
+      name: '',
+      email: '',
+      phone_number: 0,
+    },
     type: '',
-    paymentType: '',
-    tipAmount: 0.00,
-    total: 0.00,
+    payment_type: '',
+    tip_amount: '',
+    total: '',
   }),
 };
